@@ -26,7 +26,7 @@ float calculate_average(struct Student *s) {
   return (float)s->sum / (float)points_count;
 }
 
-float calculate_total_average(struct Student *students, int count) {
+float calculate_total_average(struct Student students[], int count) {
   float sum = 0.0;
 
   for (int i = 0; i < count; i++) {
@@ -68,10 +68,34 @@ void input(struct Student *s) {
   s->avg = calculate_average(s); 
 }
 
+void print_top_student(struct Student students[], int len) {
+  float max_avg = 0.0;
+  char top[10];
+
+  for (int i = 0; i < len; i++) {
+    struct Student s = students[i];
+    if (s.avg > max_avg) {
+      strcpy(top, s.name);
+      max_avg = s.avg;
+    }
+  }
+
+  printf("%s\n", top);
+}
+
+void print_below_avg_students(struct Student students[], int len) {
+  float total_avg = calculate_total_average(students, len);
+
+  for (int k = 0; k < len; k++) {
+    if (students[k].avg < total_avg) {
+      printf("%s\n", students[k].name);
+    }
+  }
+}
 
 int main() {
 
-  int NUM_OF_STUDENTS = 2;
+  int NUM_OF_STUDENTS = 5;
   
   struct Student students[NUM_OF_STUDENTS];
 
@@ -79,13 +103,10 @@ int main() {
     input(&students[i]);
   }
 
-  for (int j = 0; j < NUM_OF_STUDENTS; j++) {
-    print_student(&students[j]);
-  }
+  print_top_student(students, NUM_OF_STUDENTS);
 
-  float total_avg = calculate_total_average(students, NUM_OF_STUDENTS);
-  printf("Total Avg: %.1f\n", total_avg);
- 
+  print_below_avg_students(students, NUM_OF_STUDENTS);
+  
   return 0;
 }
 
