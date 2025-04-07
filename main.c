@@ -26,6 +26,16 @@ float calculate_average(struct Student *s) {
   return (float)s->sum / (float)points_count;
 }
 
+float calculate_total_average(struct Student *students, int count) {
+  float sum = 0.0;
+
+  for (int i = 0; i < count; i++) {
+    sum += students[i].avg;
+  }
+
+  return sum / (float)count;
+}
+
 void print_points(struct Student *s) {
   for (int i = 0; i < 13; i++) {
     printf("%d ", s->points[i]);
@@ -61,7 +71,7 @@ void input(struct Student *s) {
 
 int main() {
 
-  int NUM_OF_STUDENTS = 1;
+  int NUM_OF_STUDENTS = 2;
   
   struct Student students[NUM_OF_STUDENTS];
 
@@ -73,6 +83,8 @@ int main() {
     print_student(&students[j]);
   }
 
+  float total_avg = calculate_total_average(students, NUM_OF_STUDENTS);
+  printf("Total Avg: %.1f\n", total_avg);
  
   return 0;
 }
